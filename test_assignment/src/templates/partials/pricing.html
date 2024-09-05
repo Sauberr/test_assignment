@@ -1,0 +1,86 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/pricing.css' %}">
+{% endblock %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+
+{% include 'partials/navbar.html' %}
+
+<section class="plans__container">
+  <div class="plans">
+    <div class="plansHero">
+      <h1 class="plansHero__title">Choose your pricing plan</h1>
+      <p class="plansHero__subtitle">No contracts. No surprise fees.</p>
+    </div>
+    <div class="planItem__container">
+      <div class="planItem planItem--free">
+        {% for plan in basic %}
+        <div class="card">
+          <div class="card__header">
+            <div class="card__icon symbol symbol--rounded"></div>
+            <h2>{{ plan.name }}</h2>
+          </div>
+          <div class="card__desc">{{ plan.description }}</div>
+        </div>
+        <div class="price">${{ plan.price }}<span>/ month</span></div>
+        <ul class="featureList">
+          <li>2 links</li>
+          <li>Own analytics platform</li>
+          <li class="disabled">Chat support</li>
+          <li class="disabled">Mobile application</li>
+          <li class="disabled">Unlimited users</li>
+        </ul>
+        <button class="button">Get Started</button>
+        {% endfor %}
+      </div>
+      <div class="planItem planItem--pro">
+        {% for plan in premium %}
+        <div class="card">
+          <div class="card__header">
+            <div class="card__icon symbol"></div>
+            <h2>{{ plan.name }}</h2>
+            <div class="card__label label">Best Value</div>
+          </div>
+          <div class="card__desc">{{ plan.description }}</div>
+        </div>
+        <div class="price">${{ plan.price }}<span>/ month</span></div>
+        <ul class="featureList">
+          <li>2 links</li>
+          <li>Own analytics platform</li>
+          <li>Chat support</li>
+          <li class="disabled">Mobile application</li>
+          <li class="disabled">Unlimited users</li>
+        </ul>
+        <button class="button button--pink">Get Started</button>
+        {% endfor %}
+      </div>
+      <div class="planItem planItem--entp">
+        {% for plan in enterprise %}
+        <div class="card">
+          <div class="card__header">
+            <div class="card__icon"></div>
+            <h2>{{ plan.name }}</h2>
+          </div>
+          <div class="card__desc">{{ plan.description }}</div>
+        </div>
+        <div class="price">${{ plan.price }}<span style="color: white;">/ month</span></div>
+        <ul class="featureList">
+          <li>2 links</li>
+          <li>Own analytics platform</li>
+          <li>Chat support</li>
+          <li>Mobile application</li>
+          <li>Unlimited users</li>
+          <li>Customize Panel</li>
+        </ul>
+        <button class="button button--white">Get Started</button>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

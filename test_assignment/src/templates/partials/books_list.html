@@ -1,0 +1,81 @@
+{% extends "partials/base.html" %}
+{% load static humanize %}
+
+
+{% block css %}
+
+<style>
+.book-detail-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f5f5f5;
+}
+
+.book-detail-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    width: 100%;
+}
+
+.book-detail-card h2 {
+    margin-top: 0;
+}
+
+.book-detail-card p {
+    margin: 10px 0;
+}
+</style>
+
+{% endblock %}
+
+{% block title %} {{ title }} {% endblock %}
+
+
+{% block content %}
+
+{% include 'partials/navbar.html' %}
+
+<style>
+    .book-container {
+        margin: 20px;
+        padding: 20px;
+    }
+    .book-container ul {
+        list-style-type: none;
+    }
+    .book-container li {
+        margin-bottom: 20px;
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+    .book-container h2 {
+        margin-bottom: 10px;
+    }
+    .book-container p {
+        margin-bottom: 5px;
+    }
+</style>
+
+<div class="book-container">
+        <ul>
+            {% for book in books %}
+                <li>
+                    <h2><a href="">{{ book.title }}</a></h2>
+                    <p><strong>Author:</strong> {{ book.author }}</p>
+                    <p><strong>Description:</strong> {{ book.description }}</p>
+                    <p><strong>Price:</strong> {{ book.price|intcomma }}$</p>
+                    <p><strong>Quantity:</strong> {{ book.quantity }}</p>
+                    <p><strong>Total Quantity:</strong> {{ book.total_quantity|intcomma }}$</p>
+                </li>
+            {% endfor %}
+        </ul>
+</div>
+
+
+{% endblock %}
+

@@ -1,0 +1,55 @@
+
+{% load static %}
+
+{% block css %}<link rel="stylesheet" href="{% static 'css/footer.css' %}"> {% endblock %}
+
+<body>
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="row">
+                <div class="footer-col">
+                    <h4> Admissions </h4>
+                    <ul>
+                        <li><a href="#" target="_blank">  French BR 24/26 </a></li>
+                        <li><a href="#" target="_blank">  phone: (+38-0482) 68-12-84 </a></li>
+                        <li><a href="#" target="_blank"> trans 'phone: (+38-0482) 68-18-58 </a></li>
+                        <li><a href="#" target="_blank"> trans 'phone : (+38-093) 755 78 24 </a></li>
+                        <li><a href="#" target="_blank"> E-mail: vstup@onu.edu.ua </a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Rector</h4>
+                    <ul>
+                        <li><a href="#" target="_blank"> St. Dvoryanska, 2b Odesa, 65082 </a></li>
+                        <li><a href="#" target="_blank"> Rector (reception): </a></li>
+                        <li><a href="#" target="_blank"> (+380-048) 732-52-54 </a></li>
+                        <li><a href="#" target="_blank"> Tel./fax (+38-048) 723-35-15 </a></li>
+                        <li><a href="#" target="_blank"> Email: rector@onu.edu.ua </a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4> Our partners </h4>
+                    <ul>
+                        <li><a href="#" target="_blank"> Ministry of Education and Science of Ukraine</a></li>
+                        <li><a href="#" target="_blank"> Government contact center </a></li>
+                        <li><a href="#" target="_blank"> DNU named after O. Honchara </a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © {% now 'Y' %} The official website of the Odessa National University named after I. I. Mechnikov
+            When using materials, a link to the site is mandatory
+            Technical support is provided by the CIT of ONU
+        </div>
+    </footer>
+</body>

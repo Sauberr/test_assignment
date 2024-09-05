@@ -1,0 +1,42 @@
+{% load static %}
+
+
+
+{% block css %}
+
+<link rel="stylesheet" href="{% static 'css/search.css' %}">
+
+<style>
+        .search {
+        position: relative;
+    }
+    .suggestions-box {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        z-index: 1000;
+        max-height: 200px;
+        overflow-y: auto;
+    }
+    .suggestion {
+        padding: 10px;
+        cursor: pointer;
+    }
+    .suggestion:hover {
+        background: #f0f0f0;
+    }
+</style>
+</style>
+
+{% endblock %}
+
+<div class="search">
+    <form class="search-form">
+        <i class="fas fa-search"></i>
+        <input type="text" name="q" placeholder="Search">
+        <button type="submit">Search</button>
+    </form>
+    <div class="suggestions-box"></div>
+</div>
