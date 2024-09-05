@@ -9,7 +9,6 @@ function togglePasswordVisibility(icon) {
     }
 }
 
-// Add event listeners to the icons
 document.querySelectorAll('.input-box .icon').forEach(icon => {
     icon.addEventListener('click', function() {
         togglePasswordVisibility(this);
