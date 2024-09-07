@@ -12,75 +12,133 @@
 {% include 'partials/navbar.html' %}
 
 <section class="plans__container">
-  <div class="plans">
-    <div class="plansHero">
-      <h1 class="plansHero__title">Choose your pricing plan</h1>
-      <p class="plansHero__subtitle">No contracts. No surprise fees.</p>
+    <div class="plans">
+        <div class="plansHero">
+            <h1 class="plansHero__title">Choose your pricing plan</h1>
+            <p class="plansHero__subtitle">No contracts. No surprise fees.</p>
+        </div>
+        <div class="planItem__container">
+            <div class="planItem planItem--free">
+                <div class="card">
+                    <div class="card__header">
+                        <div class="card__icon symbol symbol--rounded"></div>
+                        <h2></h2>
+                    </div>
+                    <div class="card__desc"></div>
+                </div>
+                <div class="price">$<span>/ month</span></div>
+                <ul class="featureList">
+                    <li>2 links</li>
+                    <li>Own analytics platform</li>
+                    <li class="disabled">Chat support</li>
+                    <li class="disabled">Mobile application</li>
+                    <li class="disabled">Unlimited users</li>
+                </ul>
+                <div id="paypal-button-container-P-8E708017MM2102055M3OD57Y"></div>
+                <script src="https://www.paypal.com/sdk/js?client-id=AViFM_g_S_EyBgXIsU-k_4QiK8ZWGDcEax1_923d_rG48UOhsPhv8inLaAUUEE-8TverOEUKZneI2DQx&vault=true&intent=subscription"
+                        data-sdk-integration-source="button-factory"></script>
+                <script>
+                    paypal.Buttons({
+                        style: {
+                            shape: 'pill',
+                            color: 'silver',
+                            layout: 'vertical',
+                            label: 'subscribe'
+                        },
+                        createSubscription: function (data, actions) {
+                            return actions.subscription.create({
+                                plan_id: 'P-8E708017MM2102055M3OD57Y'
+                            });
+                        },
+                        onApprove: function (data, actions) {
+                            var current_url = 'subscription/create-subscription/' + data.subscriptionID + "/Basic"
+                            window.open(current_url, '_self')
+                        }
+                    }).render('#paypal-button-container-P-8E708017MM2102055M3OD57Y');
+                </script>
+                <button class="button">Get Started</button>
+            </div>
+            <div class="planItem planItem--pro">
+                <div class="card">
+                    <div class="card__header">
+                        <div class="card__icon symbol"></div>
+                        <h2></h2>
+                        <div class="card__label label">Best Value</div>
+                    </div>
+                    <div class="card__desc"></div>
+                </div>
+                <div class="price">$<span>/ month</span></div>
+                <ul class="featureList">
+                    <li>2 links</li>
+                    <li>Own analytics platform</li>
+                    <li>Chat support</li>
+                    <li class="disabled">Mobile application</li>
+                    <li class="disabled">Unlimited users</li>
+                </ul>
+                <div id="paypal-button-container-P-95719217972434046M3OEGAA"></div>
+                <script>
+                    paypal.Buttons({
+                        style: {
+                            shape: 'pill',
+                            color: 'gold',
+                            layout: 'vertical',
+                            label: 'subscribe'
+                        },
+                        createSubscription: function (data, actions) {
+                            return actions.subscription.create({
+                                plan_id: 'P-95719217972434046M3OEGAA'
+                            });
+                        },
+                        onApprove: function (data, actions) {
+                                                        var current_url = 'subscription/create-subscription/' + data.subscriptionID + "/Premium"
+                            window.open(current_url, '_self')
+                        }
+                    }).render('#paypal-button-container-P-95719217972434046M3OEGAA');
+                </script>
+                <button class="button button--pink">Get Started</button>
+            </div>
+            <div class="planItem planItem--entp">
+                <div class="card">
+                    <div class="card__header">
+                        <div class="card__icon"></div>
+                        <h2></h2>
+                    </div>
+                    <div class="card__desc"></div>
+                </div>
+                <div class="price">$<span style="color: white;">/ month</span></div>
+                <ul class="featureList">
+                    <li>2 links</li>
+                    <li>Own analytics platform</li>
+                    <li>Chat support</li>
+                    <li>Mobile application</li>
+                    <li>Unlimited users</li>
+                    <li>Customize Panel</li>
+                </ul>
+                <div id="paypal-button-container-P-5VS486129B569981AM3OEJXY"></div>
+                <script>
+                    paypal.Buttons({
+                        style: {
+                            shape: 'pill',
+                            color: 'black',
+                            layout: 'vertical',
+                            label: 'subscribe'
+                        },
+                        createSubscription: function (data, actions) {
+                            return actions.subscription.create({
+                                plan_id: 'P-5VS486129B569981AM3OEJXY'
+                            });
+                        },
+                        onApprove: function (data, actions) {
+                            var current_url = 'subscription/create-subscription/' + data.subscriptionID + "/Enterprise"
+                            window.open(current_url, '_self')
+                        }
+                    }).render('#paypal-button-container-P-5VS486129B569981AM3OEJXY');
+                </script>
+                <button class="button button--white">Get Started</button>
+            </div>
+        </div>
     </div>
-    <div class="planItem__container">
-      <div class="planItem planItem--free">
-        {% for plan in basic %}
-        <div class="card">
-          <div class="card__header">
-            <div class="card__icon symbol symbol--rounded"></div>
-            <h2>{{ plan.name }}</h2>
-          </div>
-          <div class="card__desc">{{ plan.description }}</div>
-        </div>
-        <div class="price">${{ plan.price }}<span>/ month</span></div>
-        <ul class="featureList">
-          <li>2 links</li>
-          <li>Own analytics platform</li>
-          <li class="disabled">Chat support</li>
-          <li class="disabled">Mobile application</li>
-          <li class="disabled">Unlimited users</li>
-        </ul>
-        <button class="button">Get Started</button>
-        {% endfor %}
-      </div>
-      <div class="planItem planItem--pro">
-        {% for plan in premium %}
-        <div class="card">
-          <div class="card__header">
-            <div class="card__icon symbol"></div>
-            <h2>{{ plan.name }}</h2>
-            <div class="card__label label">Best Value</div>
-          </div>
-          <div class="card__desc">{{ plan.description }}</div>
-        </div>
-        <div class="price">${{ plan.price }}<span>/ month</span></div>
-        <ul class="featureList">
-          <li>2 links</li>
-          <li>Own analytics platform</li>
-          <li>Chat support</li>
-          <li class="disabled">Mobile application</li>
-          <li class="disabled">Unlimited users</li>
-        </ul>
-        <button class="button button--pink">Get Started</button>
-        {% endfor %}
-      </div>
-      <div class="planItem planItem--entp">
-        {% for plan in enterprise %}
-        <div class="card">
-          <div class="card__header">
-            <div class="card__icon"></div>
-            <h2>{{ plan.name }}</h2>
-          </div>
-          <div class="card__desc">{{ plan.description }}</div>
-        </div>
-        <div class="price">${{ plan.price }}<span style="color: white;">/ month</span></div>
-        <ul class="featureList">
-          <li>2 links</li>
-          <li>Own analytics platform</li>
-          <li>Chat support</li>
-          <li>Mobile application</li>
-          <li>Unlimited users</li>
-          <li>Customize Panel</li>
-        </ul>
-        <button class="button button--white">Get Started</button>
-        {% endfor %}
-      </div>
-    </div>
-  </div>
 </section>
+
+
 {% endblock %}
