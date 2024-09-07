@@ -147,6 +147,9 @@ ELASTICSEARCH_DSL = {
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 
+SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin-allow-popups'
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 

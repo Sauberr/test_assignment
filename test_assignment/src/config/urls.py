@@ -15,6 +15,9 @@ urlpatterns = [
     # Main URL
     path("", include("core.urls", namespace="core")),
 
+    # Subscription URL
+    path("subscriptions/", include("subscriptions.urls", namespace="subscriptions")),
+
     # API URL
     path("api-auth/", include("rest_framework.urls")),
 
