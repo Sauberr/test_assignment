@@ -2,6 +2,7 @@ from django.views.generic import TemplateView, DetailView, ListView
 from django_elasticsearch_dsl.search import Search
 from elasticsearch_dsl.query import Q
 from .models import Books
+from django.shortcuts import render
 
 from account.services.mixins import TitleMixin
 from django.http import JsonResponse
@@ -86,4 +87,9 @@ class BookList(TitleMixin, ListView):
     model = Books
     context_object_name: str = 'books'
     ordering = ['title']
+
+
+def subscription_plans(request):
+
+    return render(request, 'partials/pricing.html')
 
