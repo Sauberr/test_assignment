@@ -1,3 +1,34 @@
+from gc import get_objects
+
+from django.contrib.auth import get_user_model
 from django.shortcuts import render
 
-# Create your views here.
+from subscriptions.models import Subscription
+
+
+def create_subscription(request, subid, plan):
+    user = get_user_model.objects.get(email=request.user)
+    first_name, last_name = user.first_name, user.last_name
+    full_name = f"{first_name} + ' ' + {last_name}"
+
+    selected_subscription_plan = plan
+
+    if selected_subscription_plan == "Basic":
+        subscriptions_cost = "4.99"
+    elif selected_subscription_plan == "Premium":
+        subscriptions_cost = "9.99"
+    elif selected_subscription_plan == "Enterprise":
+        subscriptions_cost = "14.99"
+
+    subscriptions = Subscription.objects.create(
+        subscriber_name=full_name,
+        subscription_plan=selected_subscription_plan,
+        subscription_cost=subscriptions_cost,
+        paypal_subscription_id=subid,
+        is_active=True,
+        user=request.user
+    )
+
+    context = {'subscription_plan': selected_subscription_plan}
+
+    return render(request, 'subscriptions/create_subscription.html', context)
