@@ -1,15 +1,15 @@
-from gc import get_objects
-
 from django.contrib.auth import get_user_model
 from django.shortcuts import render
 
 from subscriptions.models import Subscription
 
+from subscriptions.services.paypal import get_access_token, cancel_subscription_paypal
 
-def create_subscription(request, subid, plan):
-    user = get_user_model.objects.get(email=request.user)
+
+def create_subscription(request, subscription_id, plan):
+    user = get_user_model().objects.get(email=request.user.email)
     first_name, last_name = user.first_name, user.last_name
-    full_name = f"{first_name} + ' ' + {last_name}"
+    full_name = f"{first_name} {last_name}"
 
     selected_subscription_plan = plan
 
@@ -24,7 +24,7 @@ def create_subscription(request, subid, plan):
         subscriber_name=full_name,
         subscription_plan=selected_subscription_plan,
         subscription_cost=subscriptions_cost,
-        paypal_subscription_id=subid,
+        paypal_subscription_id=subscription_id,
         is_active=True,
         user=request.user
     )
@@ -32,3 +32,13 @@ def create_subscription(request, subid, plan):
     context = {'subscription_plan': selected_subscription_plan}
 
     return render(request, 'subscriptions/create_subscription.html', context)
+
+
+def delete_subscription(request, subid):
+    access_token = get_access_token()
+    cancel_subscription_paypal(access_token, subid)
+
+    subscription = Subscription.objects.get(user=request.user, paypal_subscription_id=subid)
+    subscription.delete()
+
+    return render(request, 'subscriptions/delete_subscription.html')

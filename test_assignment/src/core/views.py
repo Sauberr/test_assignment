@@ -1,6 +1,8 @@
 from django.views.generic import TemplateView, DetailView, ListView
 from django_elasticsearch_dsl.search import Search
 from elasticsearch_dsl.query import Q
+
+from subscriptions.models import Subscription
 from .models import Books
 from django.shortcuts import render
 
@@ -90,6 +92,12 @@ class BookList(TitleMixin, ListView):
 
 
 def subscription_plans(request):
+    try:
+        subscriptions = Subscription.objects.get(user=request.user)
+        subscription_plan = subscriptions.subscription_plan
+        context = {'subscription_plan': subscription_plan}
+    except:
+        context = {'subscription_plan': None}
 
-    return render(request, 'partials/pricing.html')
+    return render(request, 'partials/pricing.html', context)
 
