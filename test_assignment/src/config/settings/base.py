@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-from typing import Tuple
+from typing import Tuple, List
 import sentry_sdk
 
 from django.utils.translation import gettext_lazy as _
@@ -96,15 +96,15 @@ sentry_sdk.init(
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 
-AUTH_USER_MODEL = "account.User"
+AUTH_USER_MODEL: str = "account.User"
 
-AUTHENTICATION_BACKENDS = [
+AUTHENTICATION_BACKENDS: List[str] = [
     "account.auth_backend.AuthBackend",
 ]
 
-LOGIN_URL = "account:login"
-LOGIN_REDIRECT_URL = "core:index"
-LOGOUT_REDIRECT_URL = "core:index"
+LOGIN_URL: str = "account:login"
+LOGIN_REDIRECT_URL: str = "core:index"
+LOGOUT_REDIRECT_URL: str = "core:index"
 
 
 # Password validation
@@ -147,7 +147,7 @@ ELASTICSEARCH_DSL = {
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 
-SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin-allow-popups'
+SECURE_CROSS_ORIGIN_OPENER_POLICY: str = 'same-origin-allow-popups'
 
 
 # Default primary key field type
