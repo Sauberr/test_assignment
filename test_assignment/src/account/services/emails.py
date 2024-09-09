@@ -8,7 +8,7 @@ from django.utils.http import urlsafe_base64_encode
 from core.utils.token_generator import TokenGenerator
 
 
-def send_registration_email(request, user_instance):
+def send_registration_email(request, user_instance) -> None:
     message = render_to_string(
         template_name="emails/registration_email.html",
         context={
