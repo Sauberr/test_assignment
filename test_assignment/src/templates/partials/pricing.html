@@ -15,6 +15,8 @@
     <div class="plans">
         <div class="plansHero">
             <h1 class="plansHero__title">Choose your pricing plan</h1>
+            <h3>Subscription status: {{ subscription_plan|title }}</h3>
+            <br>
             <p class="plansHero__subtitle">No contracts. No surprise fees.</p>
         </div>
         <div class="planItem__container">
@@ -51,7 +53,7 @@
                             });
                         },
                         onApprove: function (data, actions) {
-                            var current_url = 'subscription/create-subscription/' + data.subscriptionID + "/Basic"
+                            var current_url = '/subscriptions/create-subscription/' + data.subscriptionID + "/Basic"
                             window.open(current_url, '_self')
                         }
                     }).render('#paypal-button-container-P-8E708017MM2102055M3OD57Y');
@@ -90,7 +92,7 @@
                             });
                         },
                         onApprove: function (data, actions) {
-                                                        var current_url = 'subscription/create-subscription/' + data.subscriptionID + "/Premium"
+                            var current_url = '/subscriptions/create-subscription/' + data.subscriptionID + "/Premium"
                             window.open(current_url, '_self')
                         }
                     }).render('#paypal-button-container-P-95719217972434046M3OEGAA');
@@ -129,7 +131,7 @@
                             });
                         },
                         onApprove: function (data, actions) {
-                            var current_url = 'subscription/create-subscription/' + data.subscriptionID + "/Enterprise"
+                            var current_url = '/subscriptions/create-subscription/' + data.subscriptionID + "/Enterprise"
                             window.open(current_url, '_self')
                         }
                     }).render('#paypal-button-container-P-5VS486129B569981AM3OEJXY');
