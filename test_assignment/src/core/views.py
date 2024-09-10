@@ -94,10 +94,11 @@ class BookList(TitleMixin, ListView):
 def subscription_plans(request):
     try:
         subscriptions = Subscription.objects.get(user=request.user)
+        subscription_id = subscriptions.paypal_subscription_id
         subscription_plan = subscriptions.subscription_plan
-        context = {'subscription_plan': subscription_plan}
+        context = {'subscription_plan': subscription_plan, 'subscription_id': subscription_id}
     except:
-        context = {'subscription_plan': None}
+        context = {'subscription_plan': None, 'subscription_id': None}
 
     return render(request, 'partials/pricing.html', context)
 

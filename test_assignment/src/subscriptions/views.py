@@ -34,11 +34,15 @@ def create_subscription(request, subscription_id, plan):
     return render(request, 'subscriptions/create_subscription.html', context)
 
 
-def delete_subscription(request, subid):
+def delete_subscription(request, subscription_id):
     access_token = get_access_token()
-    cancel_subscription_paypal(access_token, subid)
+    cancel_subscription_paypal(access_token, subscription_id)
 
-    subscription = Subscription.objects.get(user=request.user, paypal_subscription_id=subid)
+    subscription = Subscription.objects.get(user=request.user, paypal_subscription_id=subscription_id)
     subscription.delete()
 
     return render(request, 'subscriptions/delete_subscription.html')
+
+
+def update_subscription(request, subscription_id):
+    ...
