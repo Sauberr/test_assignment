@@ -103,11 +103,3 @@ def django_update_subscription_confirmed(request, subscription_id: str):
         )
 
     return render(request, 'subscriptions/django_update_subscription_confirmed.html')
-
-
-
-
-
-
-
-    
