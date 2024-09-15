@@ -37,6 +37,7 @@ body {
 
 .plans__container {
     padding: 1rem 0 2rem;
+    margin-top: -60px;
 }
 
 .plansHero {

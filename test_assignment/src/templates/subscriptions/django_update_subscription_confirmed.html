@@ -4,7 +4,7 @@
 
 {% block css %}
 
-<link rel="stylesheet" href="{% static 'css/subscriptions/delete_subscription.css' %}">
+<link rel="stylesheet" href="{% static 'css/subscriptions/django_update_subscription_confirmed.css' %}">
 
 {% endblock %}
 
@@ -12,16 +12,13 @@
 
 {% include 'partials/navbar.html' %}
 
-<br>
-
-<div class="subscription-cancelled">
-    <h5> Subscription cancelled! </h5>
+<div class="subscription-activated">
+    <h5> Final approval confirmed !</h5>
     <br>
-    <h1> ❌ </h1>
+    <h1> ✅ </h1>
     <br>
     <p>
-        We regret to inform you that your subscription has been cancelled
-        as per your request. Thank you for your past support!
+        We're pleased to inform you that your new subscription plan has been approved.
     </p>
     <br>
     <a class="btn btn-success" type="button" href="{% url 'core:index' %}">

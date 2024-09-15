@@ -7,6 +7,21 @@
     font-family: 'Poppins', sans-serif;
 }
 
+.search {
+    position: relative;
+}
+
+.suggestions-box {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
 .search-form {
     background: #fff;
     width: 600px;
