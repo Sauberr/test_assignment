@@ -1,5 +1,5 @@
 {% extends 'partials/base.html' %}
-{% load static %}
+{% load static humanize %}
 
 {% block css %}
 <link rel="stylesheet" href="{% static 'css/partials/pricing.css' %}">
@@ -30,17 +30,16 @@
                 <div class="card">
                     <div class="card__header">
                         <div class="card__icon symbol symbol--rounded"></div>
-                        <h2></h2>
+                        <h2>{{ basic_plan.subscriber_name|title }}</h2>
                     </div>
-                    <div class="card__desc"></div>
+                    <div class="card__desc">{{ basic_plan.description }}</div>
                 </div>
-                <div class="price">$<span>/ month</span></div>
+                <div class="price">$<span>{{ basic_plan.subscription_cost|intcomma }}/ month</span></div>
                 <ul class="featureList">
-                    <li>2 links</li>
-                    <li>Own analytics platform</li>
-                    <li class="disabled">Chat support</li>
-                    <li class="disabled">Mobile application</li>
-                    <li class="disabled">Unlimited users</li>
+                    <li> {{ basic_plan.thumbnail_photo_200px }} </li>
+                    <li class="disabled"> thumbnail_photo_400px </li>
+                    <li class="disabled"> original_photo </li>
+                    <li class="disabled"> binary_link </li>
                 </ul>
                 <div id="paypal-button-container-P-8E708017MM2102055M3OD57Y"></div>
                 <script src="https://www.paypal.com/sdk/js?client-id=AViFM_g_S_EyBgXIsU-k_4QiK8ZWGDcEax1_923d_rG48UOhsPhv8inLaAUUEE-8TverOEUKZneI2DQx&vault=true&intent=subscription"
@@ -70,18 +69,17 @@
                 <div class="card">
                     <div class="card__header">
                         <div class="card__icon symbol"></div>
-                        <h2></h2>
+                        <h2>{{ premium_plan.subscriber_name|title }}</h2>
                         <div class="card__label label">Best Value</div>
                     </div>
-                    <div class="card__desc"></div>
+                    <div class="card__desc">{{ premium_plan.description }}</div>
                 </div>
-                <div class="price">$<span>/ month</span></div>
+                <div class="price">$<span>{{ premium_plan.subscription_cost|intcomma }}/ month</span></div>
                 <ul class="featureList">
-                    <li>2 links</li>
-                    <li>Own analytics platform</li>
-                    <li>Chat support</li>
-                    <li class="disabled">Mobile application</li>
-                    <li class="disabled">Unlimited users</li>
+                    <li>{{ premium_plan.thumbnail_photo_200px }}</li>
+                    <li>{{ premium_plan.thumbnail_photo_400px }}</li>
+                    <li>{{ premium_plan.original_photo }}</li>
+                    <li class="disabled"> binary_link </li>
                 </ul>
                 <div id="paypal-button-container-P-95719217972434046M3OEGAA"></div>
                 <script>
@@ -109,18 +107,16 @@
                 <div class="card">
                     <div class="card__header">
                         <div class="card__icon"></div>
-                        <h2></h2>
+                        <h2>{{ enterprise_plan.subscriber_name|title }}</h2>
                     </div>
-                    <div class="card__desc"></div>
+                    <div class="card__desc">{{ enterprise_plan.description }}</div>
                 </div>
-                <div class="price">$<span style="color: white;">/ month</span></div>
+                <div class="price">$<span style="color: white;"> {{ enterprise_plan.subscription_cost|intcomma }}/ month</span></div>
                 <ul class="featureList">
-                    <li>2 links</li>
-                    <li>Own analytics platform</li>
-                    <li>Chat support</li>
-                    <li>Mobile application</li>
-                    <li>Unlimited users</li>
-                    <li>Customize Panel</li>
+                    <li>{{ enterprise_plan.thumbnail_photo_200px }}</li>
+                    <li>{{ enterprise_plan.thumbnail_photo_400px }}</li>
+                    <li>{{ enterprise_plan.original_photo }}</li>
+                    <li> {{ enterprise_plan.binary_link }}</li>
                 </ul>
                 <div id="paypal-button-container-P-5VS486129B569981AM3OEJXY"></div>
                 <script>
@@ -162,17 +158,16 @@
                 <div class="card">
                     <div class="card__header">
                         <div class="card__icon symbol symbol--rounded"></div>
-                        <h2></h2>
+                        <h2>{{ basic_plan.subscriber_name|title }}</h2>
                     </div>
-                    <div class="card__desc"></div>
+                    <div class="card__desc">{{ basic_plan.description }}</div>
                 </div>
-                <div class="price">$<span>/ month</span></div>
+                <div class="price">$<span>{{ basic_plan.subscription_cost|intcomma }}/ month</span></div>
                 <ul class="featureList">
-                    <li>2 links</li>
-                    <li>Own analytics platform</li>
-                    <li class="disabled">Chat support</li>
-                    <li class="disabled">Mobile application</li>
-                    <li class="disabled">Unlimited users</li>
+                    <li> {{ basic_plan.thumbnail_photo_200px }} </li>
+                    <li class="disabled"> thumbnail_photo_400px </li>
+                    <li class="disabled"> original_photo </li>
+                    <li class="disabled"> binary_link </li>
                 </ul>
                 <div id="paypal-button-container-P-8E708017MM2102055M3OD57Y"></div>
                 <script src="https://www.paypal.com/sdk/js?client-id=AViFM_g_S_EyBgXIsU-k_4QiK8ZWGDcEax1_923d_rG48UOhsPhv8inLaAUUEE-8TverOEUKZneI2DQx&vault=true&intent=subscription"
@@ -202,18 +197,17 @@
                 <div class="card">
                     <div class="card__header">
                         <div class="card__icon symbol"></div>
-                        <h2></h2>
+                        <h2>{{ premium_plan.subscriber_name|title }}</h2>
                         <div class="card__label label">Best Value</div>
                     </div>
-                    <div class="card__desc"></div>
+                    <div class="card__desc">{{ premium_plan.description }}</div>
                 </div>
-                <div class="price">$<span>/ month</span></div>
+                <div class="price">$<span>{{ premium_plan.subscription_cost|intcomma }}/ month</span></div>
                 <ul class="featureList">
-                    <li>2 links</li>
-                    <li>Own analytics platform</li>
-                    <li>Chat support</li>
-                    <li class="disabled">Mobile application</li>
-                    <li class="disabled">Unlimited users</li>
+                    <li>{{ premium_plan.thumbnail_photo_200px }}</li>
+                    <li>{{ premium_plan.thumbnail_photo_400px }}</li>
+                    <li>{{ premium_plan.original_photo }}</li>
+                    <li class="disabled"> binary_link </li>
                 </ul>
                 <div id="paypal-button-container-P-95719217972434046M3OEGAA"></div>
                 <script>
@@ -241,18 +235,16 @@
                 <div class="card">
                     <div class="card__header">
                         <div class="card__icon"></div>
-                        <h2></h2>
+                        <h2>{{ enterprise_plan.subscriber_name|title }}</h2>
                     </div>
-                    <div class="card__desc"></div>
+                    <div class="card__desc">{{ enterprise_plan.description }}</div>
                 </div>
-                <div class="price">$<span style="color: white;">/ month</span></div>
+                <div class="price">$<span style="color: white;"> {{ enterprise_plan.subscription_cost|intcomma }}/ month</span></div>
                 <ul class="featureList">
-                    <li>2 links</li>
-                    <li>Own analytics platform</li>
-                    <li>Chat support</li>
-                    <li>Mobile application</li>
-                    <li>Unlimited users</li>
-                    <li>Customize Panel</li>
+                    <li>{{ enterprise_plan.thumbnail_photo_200px }}</li>
+                    <li>{{ enterprise_plan.thumbnail_photo_400px }}</li>
+                    <li>{{ enterprise_plan.original_photo }}</li>
+                    <li> {{ enterprise_plan.binary_link }}</li>
                 </ul>
                 <div id="paypal-button-container-P-5VS486129B569981AM3OEJXY"></div>
                 <script>
