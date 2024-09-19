@@ -1,12 +1,26 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.urls import reverse_lazy
+
+from django.views.generic import DeleteView, CreateView
 
 from subscriptions.models import Subscription
 
 from subscriptions.services.paypal import get_access_token, cancel_subscription_paypal, update_subscription_paypal, \
     get_current_subscription
 
+
+# class CreateSubscription(LoginRequiredMixin, CreateView):
+#     model = Subscription
+#     template_name: str = 'subscriptions/create_subscription.html'
+#     fields = []
+#
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['subscription_plan'] = self.kwargs['selected_subscription_plan']
+#         return context
 
 def create_subscription(request, subscription_id, plan):
     user = get_user_model().objects.get(email=request.user.email)
@@ -36,10 +50,17 @@ def create_subscription(request, subscription_id, plan):
     return render(request, 'subscriptions/create_subscription.html', context)
 
 
-def confirm_delete_subscription(request, subscription_id):
-    context = {'subscription_id': subscription_id}
-    return render(request, 'subscriptions/confirm_delete_subscription.html', context)
+class ConfirmDeleteSubscription(LoginRequiredMixin, DeleteView):
+    model = Subscription
+    template_name: str = 'subscriptions/confirm_delete_subscription.html'
+    success_url = reverse_lazy('subscriptions:delete_subscription')
+    slug_field: str = 'paypal_subscription_id'
+    slug_url_kwarg: str = 'subscription_id'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['subscription_id'] = self.kwargs['subscription_id']
+        return context
 
 def delete_subscription(request, subscription_id):
     access_token = get_access_token()
