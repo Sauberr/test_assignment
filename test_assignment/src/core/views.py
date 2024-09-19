@@ -2,7 +2,7 @@ from django.views.generic import TemplateView, DetailView, ListView
 from django_elasticsearch_dsl.search import Search
 from elasticsearch_dsl.query import Q
 
-from subscriptions.models import Subscription
+from subscriptions.models import Subscription, Basic, Premium, Enterprise
 from .models import Books
 from django.shortcuts import render
 
@@ -92,13 +92,18 @@ class BookList(TitleMixin, ListView):
 
 
 def subscription_plans(request):
+    basic_plan = Basic.objects.first()
+    premium_plan = Premium.objects.first()
+    enterprise_plan = Enterprise.objects.first()
     try:
         subscriptions = Subscription.objects.get(user=request.user)
         subscription_id = subscriptions.paypal_subscription_id
         subscription_plan = subscriptions.subscription_plan
-        context = {'subscription_plan': subscription_plan, 'subscription_id': subscription_id}
+        context = {'subscription_plan': subscription_plan, 'subscription_id': subscription_id,
+                   'basic_plan': basic_plan, 'premium_plan': premium_plan, 'enterprise_plan': enterprise_plan}
     except:
-        context = {'subscription_plan': None, 'subscription_id': None}
+        context = {'subscription_plan': None, 'subscription_id': None, 'basic_plan': basic_plan,
+                   'premium_plan': premium_plan, 'enterprise_plan': enterprise_plan}
 
     return render(request, 'partials/pricing.html', context)
 
