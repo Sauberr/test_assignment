@@ -1,0 +1,15 @@
+
+.error-container {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.error-title {
+    font-size: 48px;
+    font-weight: bold;
+}
+
+.error-message {
+    font-size: 24px;
+    margin-top: 20px;
+}
