@@ -4,6 +4,8 @@ from django.contrib import admin
 from django.urls import path
 from django.urls.conf import include
 from django.contrib.auth import views as auth_views
+from core.views import Handler404, Handler500, Handler403, Handler502, Handler503
+
 
 urlpatterns = [
 
@@ -51,6 +53,14 @@ urlpatterns = [
     ),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+handler403 = Handler403.as_view()
+handler404 = Handler404.as_view()
+handler500 = Handler500.as_view()
+handler502 = Handler502.as_view()
+handler503 = Handler503.as_view()
+
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
