@@ -1,0 +1,21 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+{% block css %}
+
+<link rel="stylesheet" href="{% static 'http_errors/errors.css' %}">
+
+{% endblock %}
+
+{% block title %} {{ title ]} {% endblock %}
+
+{% block content %}
+
+{% include 'partials/navbar.html' %}
+
+<div class="error-container">
+    <h1 class="error-title">403 - Forbidden</h1>
+    <p class="error-message">Sorry, you do not have permission to access this page.</p>
+</div>
+
+{% endblock %}

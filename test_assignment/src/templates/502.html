@@ -1,0 +1,21 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+{% block css %}
+
+<link rel="stylesheet" href="{% static 'http_errors/errors.css' %}">
+
+{% endblock %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+
+{% include 'partials/navbar.html' %}
+
+<div class="error-container">
+    <h1 class="error-title">503 - Service Unavailable</h1>
+    <p class="error-message">Sorry, the server is currently unavailable. Please try again later.</p>
+</div>
+
+{% endblock %}
