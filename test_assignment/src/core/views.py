@@ -1,4 +1,4 @@
-from django.views.generic import TemplateView, DetailView, ListView
+from django.views.generic import TemplateView, DetailView, ListView, View
 from django_elasticsearch_dsl.search import Search
 from elasticsearch_dsl.query import Q
 
@@ -106,4 +106,29 @@ def subscription_plans(request):
                    'premium_plan': premium_plan, 'enterprise_plan': enterprise_plan}
 
     return render(request, 'partials/pricing.html', context)
+
+
+class Handler403(TitleMixin, TemplateView):
+    template_name: str = '403.html'
+    title: str = '403 Forbidden'
+
+
+class Handler404(TitleMixin, TemplateView):
+    template_name = '404.html'
+    title: str = '404 Not Found'
+
+
+class Handler500(TitleMixin, TemplateView):
+    template_name: str = '500.html'
+    title: str = '500 Internal Server Error'
+
+class Handler502(TitleMixin, TemplateView):
+    template_name: str = '502.html'
+    title: str = '502 Bad Gateway'
+
+
+class Handler503(TitleMixin, TemplateView):
+    template_name: str = '503.html'
+    title: str = '503 Service Unavailable'
+
 
