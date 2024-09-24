@@ -3,6 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.urls import reverse_lazy
+from django.views import View
 
 from django.views.generic import DeleteView
 
@@ -55,38 +56,41 @@ class ConfirmDeleteSubscription(LoginRequiredMixin, TitleMixin, DeleteView):
         return context
 
 
-def delete_subscription(request, subscription_id: str) -> HttpResponse:
-    access_token = get_access_token()
-    cancel_subscription_paypal(access_token, subscription_id)
+class DeleteSubscription(LoginRequiredMixin, TitleMixin, View):
 
-    subscription = Subscription.objects.get(user=request.user, paypal_subscription_id=subscription_id)
-    subscription.delete()
-    context = {'title': 'Subscription Deleted'}
+    def get(self, request, subscription_id: str) -> HttpResponse:
+        access_token = get_access_token()
+        cancel_subscription_paypal(access_token, subscription_id)
 
-    return render(request, 'subscriptions/delete_subscription.html', context)
+        subscription = Subscription.objects.get(user=request.user, paypal_subscription_id=subscription_id)
+        subscription.delete()
+        context = {'title': 'Subscription Deleted'}
 
-
-def update_subscription(request, subscription_id: str, new_plan: str):
-    access_token = get_access_token()
-    approve_link = update_subscription_paypal(access_token, subscription_id, new_plan)
-    if approve_link:
-        return redirect(approve_link)
-    else:
-        return HttpResponse("Unable to obtain the approval link. Please try again later.")
+        return render(request, 'subscriptions/delete_subscription.html', context)
 
 
-def paypal_update_subscription_confirmed(request) -> HttpResponse:
-    try:
-        subscription_details = Subscription.objects.get(user=request.user)
-        subscription_id = subscription_details.paypal_subscription_id
+class UpdateSubscription(View):
 
-        context = {'subscription_id': subscription_id}
+    def get(self, request, subscription_id: str, new_plan: str) -> HttpResponse:
+        access_token = get_access_token()
+        approve_link = update_subscription_paypal(access_token, subscription_id, new_plan)
+        if approve_link:
+            return redirect(approve_link)
+        else:
+            return HttpResponse("Unable to obtain the approval link. Please try again later.")
 
-        return render(request, 'subscriptions/paypal_update_subscription_confirmed.html', context)
 
-    except:
+class PaypalUpdateSubscriptionConfirmed(View):
 
-        return render(request, 'subscriptions/paypal_update_subscription_confirmed.html')
+    def get(self, request, *args, **kwargs) -> HttpResponse:
+        try:
+            subscription_details = Subscription.objects.get(user=request.user)
+            subscription_id = subscription_details.paypal_subscription_id
+
+            context = {'subscription_id': subscription_id}
+            return render(request, 'subscriptions/paypal_update_subscription_confirmed.html', context)
+        except Subscription.DoesNotExist:
+            return render(request, 'subscriptions/paypal_update_subscription_confirmed.html')
 
 
 def django_update_subscription_confirmed(request, subscription_id: str) -> HttpResponse:
