@@ -18,7 +18,7 @@ class UserLoginView(TitleMixin, SuccessMessageMixin, LoginView):
     title: str = "Login"
     model = get_user_model()
     form_class = UserLoginForm
-    success_message = "You are successfully logged in"
+    success_message: str = "You are successfully logged in"
     success_url = reverse_lazy("core:index")
 
     def form_valid(self, form):

@@ -1,10 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'partials/base.html' %}
+{% load static %}
 
-</body>
-</html>
+{% block css %}
+
+<style></style>
+
+{% endblock %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+
+{% include 'partials/navbar.html' %}
+
+
+
+{% endblock %}
