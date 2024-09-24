@@ -3,7 +3,7 @@ from django.urls import path
 from account.views import (ActivateUser, UserLoginView, UserLogoutView,
                            UserRegistrationView, PasswordResetView)
 
-app_name = "account"
+app_name: str = "account"
 
 urlpatterns = [
     path("login/", UserLoginView.as_view(), name="login"),

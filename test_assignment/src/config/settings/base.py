@@ -15,6 +15,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = 'django-insecure-x*l7&fx$1@@z)fol=kj4fl6d5gg6ou$+1%x823644xoyw09d2%'
 
+INTERNAL_IPS: List[str] = [
+    "127.0.0.1",
+]
 
 # Application definition
 
@@ -34,6 +37,7 @@ INSTALLED_APPS: Tuple[str, ...] = (
     "rest_framework",
     "django_elasticsearch_dsl",
     "django.contrib.humanize",
+    "debug_toolbar",
 
     # Custom apps
     "phonenumber_field",
@@ -61,6 +65,7 @@ MIDDLEWARE: Tuple[str, ...] = (
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django_prometheus.middleware.PrometheusAfterMiddleware",
 )
 
@@ -155,6 +160,17 @@ SECURE_CROSS_ORIGIN_OPENER_POLICY: str = 'same-origin-allow-popups'
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+
+AUTHENTICATION_BACKENDS: List[str] = [
+    'django.contrib.auth.backends.ModelBackend',
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.twitter.TwitterOAuth',
+]
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '130194174317-ssov539meanpo8d1h1p3ddjno8crfvpd.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
+
+
 JET_THEMES = [
     {"theme": "default", "color": "#47bac1", "title": "Default"},
     {"theme": "green", "color": "#44b78b", "title": "Green"},
@@ -165,3 +181,4 @@ JET_THEMES = [
 ]
 
 REST_FRAMEWORK = {"DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly"]}
+
