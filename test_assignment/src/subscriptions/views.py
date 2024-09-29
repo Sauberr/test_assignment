@@ -1,3 +1,6 @@
+import os
+from typing import Literal, Tuple, Dict, Final
+
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
@@ -7,39 +10,52 @@ from django.views import View
 
 from django.views.generic import DeleteView
 
-from account.services.mixins import TitleMixin
-from subscriptions.models import Subscription
+from common.mixins import TitleMixin
+from subscriptions.models import Subscription, Enterprise
 
 from subscriptions.services.paypal import get_access_token, cancel_subscription_paypal, update_subscription_paypal, \
     get_current_subscription
 
 
-def create_subscription(request, subscription_id: str, plan: str) -> HttpResponse:
-    user = get_user_model().objects.get(email=request.user.email)
-    first_name, last_name = user.first_name, user.last_name
-    full_name = f"{first_name} {last_name}"
+BASIC: Final = 'Basic'
+PREMIUM: Final = 'Premium'
+ENTERPRISE: Final = 'Enterprise'
 
-    selected_subscription_plan = plan
+BASIC_COST: Final = '4.99'
+PREMIUM_COST: Final = '9.99'
+ENTERPRISE_COST: Final = '14.99'
 
-    if selected_subscription_plan == 'Basic':
-        subscriptions_cost = "4.99"
-    elif selected_subscription_plan == "Premium":
-        subscriptions_cost = "9.99"
-    elif selected_subscription_plan == "Enterprise":
-        subscriptions_cost = "14.99"
 
-    subscriptions = Subscription.objects.create(
-        subscriber_name=full_name,
-        subscription_plan=selected_subscription_plan,
-        subscription_cost=subscriptions_cost,
-        paypal_subscription_id=subscription_id,
-        is_active=True,
-        user=request.user
-    )
+class CreateSubscription(TitleMixin, View):
+    title: str = 'Create Subscription'
 
-    context = {'subscription_plan': selected_subscription_plan, 'title': 'Subscription Created'}
+    def get(self, request, subscription_id: str, plan: str) -> HttpResponse:
+        user = get_user_model().objects.get(email=request.user.email)
+        first_name, last_name = user.first_name, user.last_name
+        full_name = f"{first_name} {last_name}"
 
-    return render(request, 'subscriptions/create_subscription.html', context)
+        selected_subscription_plan = plan
+
+        plan_mapping: Dict[str, str] = {
+            BASIC: BASIC_COST,
+            PREMIUM: PREMIUM_COST,
+            Enterprise: ENTERPRISE_COST,
+        }
+
+        subscription_cost = plan_mapping.get(selected_subscription_plan)
+
+        subscriptions = Subscription.objects.create(
+            subscriber_name=full_name,
+            subscription_plan=selected_subscription_plan,
+            subscription_cost=subscription_cost,
+            paypal_subscription_id=subscription_id,
+            is_active=True,
+            user=request.user
+        )
+
+        context = {'subscription_plan': selected_subscription_plan}
+
+        return render(request, 'subscriptions/create_subscription.html', context)
 
 
 class ConfirmDeleteSubscription(LoginRequiredMixin, TitleMixin, DeleteView):
@@ -93,32 +109,27 @@ class PaypalUpdateSubscriptionConfirmed(View):
             return render(request, 'subscriptions/paypal_update_subscription_confirmed.html')
 
 
-def django_update_subscription_confirmed(request, subscription_id: str) -> HttpResponse:
-    access_token = get_access_token()
-    current_plan_id = get_current_subscription(access_token, subscription_id)
+class DjangoUpdateSubscriptionConfirmed(View):
 
-    if current_plan_id == 'P-6GS86287F0539600CM3YD7OQ':
-        new_plan_name: str = 'Basic'
-        new_plan_cost: str = '4.99'
+    def get(self, request, subscription_id: str)-> HttpResponse:
 
-        Subscription.objects.filter(paypal_subscription_id=subscription_id).update(
-            subscription_plan=new_plan_name,  subscription_cost=new_plan_cost
-        )
+        try:
+            access_token = get_access_token()
+            current_plan_id = get_current_subscription(access_token, subscription_id)
 
-    elif current_plan_id == 'P-7KE47576DG258030BM3YEAFA':
-        new_plan_name: str = 'Premium'
-        new_plan_cost: str = '9.99'
+            plan_mapping = {
+                os.environ.get('BASIC'): (BASIC, BASIC_COST),
+                os.environ.get('PREMIUM'): (PREMIUM, PREMIUM_COST),
+                os.environ.get('ENTERPRISE'): (ENTERPRISE, ENTERPRISE_COST),
+            }
 
-        Subscription.objects.filter(paypal_subscription_id=subscription_id).update(
-            subscription_plan=new_plan_name,  subscription_cost=new_plan_cost
-        )
+            new_plan = plan_mapping.get(current_plan_id)
+            if new_plan:
+                new_plan_name, new_plan_cost = new_plan
+                subscription = Subscription.objects.filter(paypal_subscription_id=subscription_id).update(
+                    subscription_plan=new_plan_name, subscription_cost=new_plan_cost
+                )
+            return render(request, 'subscriptions/django_update_subscription_confirmed.html')
 
-    elif current_plan_id == 'P-3WE528458D9215156M3YEAMI':
-        new_plan_name: str = 'Enterprise'
-        new_plan_cost: str = '14.99'
-
-        Subscription.objects.filter(paypal_subscription_id=subscription_id).update(
-            subscription_plan=new_plan_name,  subscription_cost=new_plan_cost
-        )
-
-    return render(request, 'subscriptions/django_update_subscription_confirmed.html')
+        except Subscription.DoesNotExist:
+            pass

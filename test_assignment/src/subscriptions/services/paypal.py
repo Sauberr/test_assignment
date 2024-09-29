@@ -3,7 +3,7 @@ import os
 import requests
 from http import HTTPStatus
 import json
-from typing import Dict
+from typing import Dict, Literal
 import logging
 
 from subscriptions.models import Subscription
@@ -48,7 +48,7 @@ def cancel_subscription_paypal(access_token, subscription_id: str) -> None:
         return None
 
 
-def update_subscription_paypal(access_token, subscription_id: str, new_plan: str) -> str | None:
+def update_subscription_paypal(access_token, subscription_id: str, new_plan: str) ->  str | None:
     bearer_token: str = f'Bearer {access_token}'
 
     headers: Dict[str, str] = {
@@ -58,25 +58,26 @@ def update_subscription_paypal(access_token, subscription_id: str, new_plan: str
 
     subscriptions_details = Subscription.objects.get(paypal_subscription_id=subscription_id)
     current_subscription_plan = subscriptions_details.subscription_plan
-    new_subscription_plan_id: str = ''
 
-    if current_subscription_plan == 'Basic':
-        if new_plan == 'Premium':
-            new_subscription_plan_id = 'P-7KE47576DG258030BM3YEAFA'
-        elif new_plan == 'Enterprise':
-            new_subscription_plan_id = 'P-3WE528458D9215156M3YEAMI'
+    PlanType = Literal['Basic', 'Premium', 'Enterprise']
+    PlanMapping = Dict[PlanType, Dict[PlanType, str]]
 
-    elif current_subscription_plan == 'Premium':
-        if new_plan == 'Basic':
-            new_subscription_plan_id = 'P-6GS86287F0539600CM3YD7OQ'
-        elif new_plan == 'Enterprise':
-            new_subscription_plan_id = 'P-3WE528458D9215156M3YEAMI'
+    plan_mapping: PlanMapping = {
+        'Basic': {
+            'Premium': os.environ.get('PREMIUM'),
+            'Enterprise': os.environ.get('ENTERPRISE'),
+        },
+        'Premium': {
+            'Basic': os.environ.get('BASIC'),
+            'Enterprise': os.environ.get('ENTERPRISE'),
+        },
+        'Enterprise': {
+            'Basic': os.environ.get('BASIC'),
+            'Premium': os.environ.get('PREMIUM'),
+        }
+    }
 
-    elif current_subscription_plan == 'Enterprise':
-        if new_plan == 'Basic':
-            new_subscription_plan_id = 'P-6GS86287F0539600CM3YD7OQ'
-        elif new_plan == 'Premium':
-            new_subscription_plan_id = 'P-7KE47576DG258030BM3YEAFA'
+    new_subscription_plan_id = plan_mapping.get(current_subscription_plan, {}).get(new_plan)
 
     url: str = f'{os.environ.get("PAYPAL_URL")}/v1/billing/subscriptions/{subscription_id}/revise'
 
