@@ -30,7 +30,7 @@
     {% endif %}
     <div class="login-container">
         <div class="image-section">
-            <img src="{% static 'image/registration/login.jpg' %}" width="650" height="650" alt="Login Image">
+            <img src="{% static 'images/registration/login.jpg' %}" width="650" height="650" alt="Login Image">
         </div>
         <div class="form-box login">
             <h2>Login</h2>
@@ -56,13 +56,13 @@
                 </div>
                 <p class="or-text">or</p>
                 <button class="btn auth-btn google-btn">
-                    <a style="color: cornsilk" href="">
-                        <ion-icon name="logo-google"></ion-icon>Login with Google
+                    <a style="color: cornsilk" href="{% url 'social:begin' 'google-oauth2' %}">
+                        <ion-icon name="logo-google"></ion-icon>Login via Google
                     </a>
                 </button>
-                <button class="btn auth-btn telegram-btn">
-                    <a style="color: cornsilk" href="">
-                        <ion-icon name="logo-twitter"></ion-icon>Login with Twitter
+                <button class="btn auth-btn github-btn">
+                    <a style="color: cornsilk" href="{% url 'social:begin' "github" %}">
+                        <ion-icon name="logo-github"></ion-icon>Login via GitHub
                     </a>
                 </button>
             </form>
