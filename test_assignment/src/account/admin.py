@@ -1,13 +1,13 @@
 from django.contrib import admin
 from django.contrib.auth import get_user_model
 
-from account.models import ProxyUser, UserProfile
+from account.models import ProxyUser, Profile
 
-admin.site.register([ProxyUser, UserProfile])
+admin.site.register([ProxyUser, Profile])
 
 
 class ProfileAdmin(admin.StackedInline):
-    model = UserProfile
+    model = Profile
 
 
 @admin.register(get_user_model())

@@ -1,8 +1,10 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 from django.core.exceptions import ValidationError
 from django_recaptcha.fields import ReCaptchaField
+
+from account.models import Profile
 
 
 class UserRegistrationForm(UserCreationForm):
@@ -47,3 +49,21 @@ class UserLoginForm(AuthenticationForm):
     class Meta:
         model = get_user_model()
         fields = ("email", "phone_number", "password", "remember_me")
+
+
+class ProfileForm(UserChangeForm):
+    first_name = forms.CharField(max_length=25)
+    last_name = forms.CharField(max_length=25)
+    phone_number = forms.CharField(max_length=15)
+    email = forms.EmailField()
+    avatar = forms.ImageField()
+    is_active = forms.BooleanField()
+    date_joined = forms.DateTimeField()
+    birth_date = forms.DateField()
+
+    class Meta:
+        model = Profile
+        fields = ("first_name", "last_name", "phone_number", "email", "avatar", "is_active",
+                  "date_joined", "birth_date")
+
+
