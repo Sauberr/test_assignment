@@ -2,7 +2,7 @@ from django.urls import path
 
 from core.views import IndexView, BookList, subscription_plans
 
-app_name = "core"
+app_name: str = "core"
 
 urlpatterns = [
     path("", IndexView.as_view(), name="index"),

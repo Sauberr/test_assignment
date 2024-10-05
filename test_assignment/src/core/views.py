@@ -1,14 +1,11 @@
-from django.views.generic import TemplateView, DetailView, ListView, View
-from django_elasticsearch_dsl.search import Search
-from elasticsearch_dsl.query import Q
+from django.views.generic import TemplateView, ListView
 
 from subscriptions.models import Subscription, Basic, Premium, Enterprise
 from .models import Books
 from django.shortcuts import render
 
-from account.services.mixins import TitleMixin
-from django.http import JsonResponse
-from .documents import BookDocument
+from common.mixins import TitleMixin
+
 
 class IndexView(TitleMixin, TemplateView):
     template_name: str = "partials/index.html"
