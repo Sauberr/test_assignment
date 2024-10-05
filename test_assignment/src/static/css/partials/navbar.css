@@ -140,6 +140,33 @@ header {
     width: 100%;
 }
 
+    .logout-links {
+    position: relative;
+    text-decoration: none;
+    color: #bbbbbb;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.logout-links::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background-color: #fff;
+    transition: width 0.3s ease;
+}
+
+.logout-links:hover {
+    color: #ffffff;
+}
+
+.logout-links:hover::after {
+    width: 100%;
+}
+
 .logo a::after {
     height: 0;
 }

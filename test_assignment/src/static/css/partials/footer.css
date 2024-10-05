@@ -10,7 +10,6 @@ body {
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
-
 }
 
 .footer-container {
@@ -29,7 +28,7 @@ ul {
 
 .footer {
     background-color: #24262b;
-    padding: 70px 0;
+    padding: 20px 0; /* Reduced padding */
 }
 
 .footer-col {
@@ -96,7 +95,7 @@ ul {
 
 .footer-bottom {
     text-align: center;
-    padding: 20px;
+    padding: 10px;
     background: #24262b;
     color: #bbbbbb;
     font-size: 0.8rem;
@@ -116,10 +115,3 @@ ul {
         width: 100%;
     }
 }
-
-
-
-
-
-
-
