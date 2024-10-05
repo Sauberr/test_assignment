@@ -29,6 +29,13 @@ urlpatterns = [
     # Account URL
     path("account/", include("account.urls", namespace="account")),
 
+    # Images URL
+    path("images/", include("images.urls", namespace="images")),
+
+    # Social Auth URL
+
+    path("social-auth/", include("social_django.urls", namespace="social")),
+
     # Password reset views
     path(
         "password-reset-done/",

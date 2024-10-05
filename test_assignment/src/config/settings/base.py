@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-from typing import Tuple, List
+from typing import Tuple, List, Any
 import sentry_sdk
 
 from django.utils.translation import gettext_lazy as _
@@ -14,6 +14,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = 'django-insecure-x*l7&fx$1@@z)fol=kj4fl6d5gg6ou$+1%x823644xoyw09d2%'
+
+
+ALLOWED_HOSTS: List[Any] = ["*", "127.0.0.1", "localhost"]
 
 INTERNAL_IPS: List[str] = [
     "127.0.0.1",
@@ -46,12 +49,14 @@ INSTALLED_APPS: Tuple[str, ...] = (
     "django_inlinecss",
     "django_recaptcha",
     "drf_yasg",
+    "social_django",
 
     # My apps
     "core",
     "subscriptions",
     "account",
     "api",
+    "images",
 )
 
 CRISPY_TEMPLATE_PACK = "bootstrap5"
@@ -67,9 +72,10 @@ MIDDLEWARE: Tuple[str, ...] = (
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django_prometheus.middleware.PrometheusAfterMiddleware",
+    "social_django.middleware.SocialAuthExceptionMiddleware",
 )
 
-ROOT_URLCONF = "config.urls"
+ROOT_URLCONF: str = "config.urls"
 
 TEMPLATES = [
     {
@@ -82,6 +88,8 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "social_django.context_processors.backends",
+                "social_django.context_processors.login_redirect",
             ],
         },
     },
@@ -102,10 +110,6 @@ sentry_sdk.init(
 
 
 AUTH_USER_MODEL: str = "account.User"
-
-AUTHENTICATION_BACKENDS: List[str] = [
-    "account.auth_backend.AuthBackend",
-]
 
 LOGIN_URL: str = "account:login"
 LOGIN_REDIRECT_URL: str = "core:index"
@@ -161,15 +165,35 @@ SECURE_CROSS_ORIGIN_OPENER_POLICY: str = 'same-origin-allow-popups'
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
+SOCIAL_AUTH_URL_NAMESPACE: str = "social"
+
+
 AUTHENTICATION_BACKENDS: List[str] = [
-    'django.contrib.auth.backends.ModelBackend',
     'social_core.backends.google.GoogleOAuth2',
-    'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.github.GithubOAuth2',
+    'account.auth_backend.AuthBackend',
+    'django.contrib.auth.backends.ModelBackend',
 ]
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '130194174317-ssov539meanpo8d1h1p3ddjno8crfvpd.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get("SOCIAL_AUTH_GOOGLE_OAUTH2_KEY")
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get("SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET")
 
+SOCIAL_AUTH_GITHUB_KEY = 'Ov23lituVCnvAs80C47d'
+SOCIAL_AUTH_GITHUB_SECRET = 'ae37c4070d47038ceacb6c90c00e4af48d509697'
+
+SOCIAL_AUTH_PIPELINE: Tuple[str, ...] = (
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.auth_allowed',
+    'social_core.pipeline.social_auth.social_user',
+    'social_core.pipeline.user.get_username',
+    'social_core.pipeline.user.create_user',
+    'account.pipeline.cleanup_social_account',
+    'account.pipeline.activate_user',
+    'social_core.pipeline.social_auth.associate_user',
+    'social_core.pipeline.social_auth.load_extra_data',
+    'social_core.pipeline.user.user_details'
+)
 
 JET_THEMES = [
     {"theme": "default", "color": "#47bac1", "title": "Default"},
@@ -181,4 +205,3 @@ JET_THEMES = [
 ]
 
 REST_FRAMEWORK = {"DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly"]}
-
