@@ -1,6 +1,13 @@
 from django.db import models
 from faker import Faker
-from subscriptions.models import Subscription
+from typing import List, Tuple
+
+
+SUBSCRIPTION_PLANS: List[Tuple[str, str]] = [
+    ('Basic', 'Basic Plan'),
+    ('Premium', 'Premium Plan'),
+    ('Enterprise', 'Enterprise Plan'),
+]
 
 
 class Images(models.Model):
@@ -10,7 +17,7 @@ class Images(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     author = models.CharField(max_length=200)
     description = models.TextField()
-    subscription = models.ForeignKey(Subscription, on_delete=models.CASCADE, null=True, blank=True)
+    subscription_plans = models.CharField(max_length=200, choices=SUBSCRIPTION_PLANS, default='Basic')
 
     class Meta:
         verbose_name: str = "Image"

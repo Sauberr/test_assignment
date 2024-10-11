@@ -10,7 +10,7 @@ class ImagesAdmin(admin.ModelAdmin):
         return format_html('<img src="{}" width="40";" />'.format(object.image.url))
 
     thumbnail.short_description = "Image"
-    list_display = ("title", "thumbnail", "description", "author", "subscription", "created_at", "updated_at")
+    list_display = ("title", "thumbnail", "description", "author", "subscription_plans", "created_at", "updated_at")
     list_display_links = ("title", "thumbnail", "description")
     search_fields = ("title", "description")
     ordering = ("title", "description")
