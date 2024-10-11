@@ -52,6 +52,11 @@
     width: 100%;
     height: 350px;
     object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.gallery-container img:hover {
+    transform: scale(1.05);
 }
 
 .gallery-container h2 {

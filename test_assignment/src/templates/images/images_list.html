@@ -22,12 +22,12 @@
             <p><strong>Author:</strong> {{ image.author }}</p>
             <p><strong>Description:</strong> {{ image.description }}</p>
             <p><strong>Created:</strong> {{ image.created_at|date:"F j, Y" }}</p>
-            <p><strong>Subscription:</strong> {{ image.subscription }}</p>
+            <p><strong>Subscription:</strong> {{ image.subscription_plans }}</p>
             <div class="download-buttons">
-                <a href="{{ image.png_download_url }}" class="action_btn" download>
+                <a href="#" class="action_btn download-btn" data-url="{{ image.image.url }}" data-format="png">
                     <i class="fas fa-file-image"></i> PNG
                 </a>
-                <a href="{{ image.jpeg_download_url }}" class="action_btn" download>
+                <a href="#" class="action_btn download-btn" data-url="{{ image.image.url }}" data-format="jpeg">
                     <i class="fas fa-file-image"></i> JPEG
                 </a>
             </div>
@@ -41,5 +41,5 @@
 {% endblock %}
 
 {% block js %}
-<script src="{% static 'js/gallery.js' %}"></script>
+<script src="{% static 'js/download_images_png_jpeg.js' %}"></script>
 {% endblock %}
