@@ -48,6 +48,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     date_joined = models.DateTimeField(_("date joined"), default=timezone.now)
     birth_date = models.DateField(_("birth date"), blank=True, null=True)
     avatar = models.ImageField(_("avatar"), upload_to="avatars/", blank=True, null=True)
+    mfa_secret = models.CharField(max_length=16, blank=True, null=True)
+    mfa_enabled = models.BooleanField(default=False)
 
     objects = CustomerManager()
 
