@@ -38,7 +38,7 @@
             </li>
         </ul>
         {% if user.is_authenticated %}
-        <a href="" class="action_btn"> Dashboard </a>
+        <a href="{% url 'account:profile' %}" class="action_btn"> Dashboard </a>
         <form id="logout-form" action="{% url 'account:logout' %}" method="POST" style="display: none;">
             {% csrf_token %}
         </form>
