@@ -36,7 +36,7 @@ urlpatterns = [
 
     path("social-auth/", include("social_django.urls", namespace="social")),
 
-    # Password reset views
+    # Password reset urls
     path(
         "password-reset-done/",
         auth_views.PasswordResetDoneView.as_view(
